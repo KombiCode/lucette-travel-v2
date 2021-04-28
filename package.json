@@ -1,5 +1,5 @@
 {
-  "name": "lucette_travel",
+  "name": "lucette_travel_v2",
   "private": true,
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^4.7.0",
