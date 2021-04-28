@@ -1,0 +1,18 @@
+Brief description of how the lucette-travel-v2 repo has been created from repo lucette-travel-v
+
+1) On GitHub, creation of the new repository
+   From my account under repositories hit New button
+   Enter the name ('lucette-travel-v2')
+   Keep all default options
+   Hit 'Create repositoty'
+
+2) Mirroring previous repo
+   Open a terminal and go into old repo (WARNING : MUST BE UP TO DATE !)
+   From there type : git push --mirror git@github.com:TJBZH38/lucette-travel-v2.git
+
+3) Clone the new repo locally
+   From a terminal go to my GitHub directory
+   From there type : git clone git@github.com:TJBZH38/lucette-travel-v2.git 
+
+
+   
