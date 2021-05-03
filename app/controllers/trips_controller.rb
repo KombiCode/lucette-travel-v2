@@ -15,9 +15,7 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.new(trip_params)
-    # Use $elodie_user
-    @trip.user_id = $elodie_user.id
-    #@trip.user_id = current_user.id
+    @trip.user_id = current_user.id
     if @trip.save
       redirect_to root_path
     else
@@ -32,7 +30,7 @@ class TripsController < ApplicationController
   end
 
   def check_user
-    if !$elodie_user
+    if !current_user
       authenticate_user!
     end
   end
