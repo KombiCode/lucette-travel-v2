@@ -1,3 +1,5 @@
+require './app/services/sygic_api_activity_handler'
+
 class TripActivitiesController < ApplicationController
   before_action :set_trip, only: [:show, :new, :create]
 
@@ -9,6 +11,13 @@ class TripActivitiesController < ApplicationController
     @planned_at = params[:planned_at]
     @booking = @trip.bookings.find_by('begin_date <= :planned_at AND end_date >= :planned_at AND category = :category', planned_at: params[:planned_at], category: 'Hotel') || @trip.bookings.find_by(category: 'Hotel')
     @localisation = @booking&.address
+
+    # Use API to search for Points Of Interest near booking
+    api_handler = SygicApiActivityHandler.new
+    km_radius = 8
+    max_pois = 64
+    api_handler.searchActivitiesAround(@booking.latitude, @booking.longitude, km_radius, max_pois)
+
 
     @tripActivity = TripActivity.new
     # @tripActivity.trip = @trip
@@ -27,6 +36,7 @@ class TripActivitiesController < ApplicationController
         }
 
     end
+
   end
 
   def create
