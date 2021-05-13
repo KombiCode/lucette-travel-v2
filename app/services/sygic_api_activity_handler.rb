@@ -3,6 +3,10 @@ require 'open-uri'
 
 require 'amazing_print'
 
+# Sygic uses OSM format for opening hours
+# At some point, we will need to handle this format too
+# Here is a link to a js implementation we may use : 'https://github.com/opening-hours/opening_hours.js'
+
 class SygicApiActivityHandler
   def initialize
     @base_url = 'https://api.sygictravelapi.com'
@@ -10,14 +14,40 @@ class SygicApiActivityHandler
     @api_lang = 'en'
   end
 
-  def searchActivitiesAround(lat, long, km_radius, limit)
-    area_param = "area=#{lat},#{long},#{km_radius*1000}"
-    api_url = "#{@base_url}/#{@api_version}/#{@api_lang}/places/list?"
-    api_url += "#{area_param}&levels=poi&limit=#{limit}"
+  def searchActivitiesAround(lat, lng, km_radius, limit)
+    # Prepare first API call using area in circle of radius in meters around lat, lng point
+    # We look for list of places having level 'poi'
+    area_param = "area=#{lat},#{lng},#{km_radius*1000}"
+    api_common_url = "#{@base_url}/#{@api_version}/#{@api_lang}/places"
+    api_url = api_common_url + "/list?#{area_param}&levels=poi&limit=#{limit}"
     pois_detected_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
     pois_detected = JSON.parse(pois_detected_serialized)
+    # Now, we want to get details on each poi place
+    # We should use API endpoint multi place details: (like https://api.sygictravelapi.com/1.2/{{lang}}/places?ids=poi:530|poi:531|poi:532|poi:533)
+    # but does not seem to work actually, so we currently use place details endpoint for each
     pois_detected["data"]["places"].each do |poi|
-      # TODO : create Activity
+      api_url = api_common_url + "/#{poi["id"]}"
+      poi_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
+      poi_details = JSON.parse(poi_details_serialized)
+      poi_d = poi_details["data"]["place"]
+      # TODO : create Activity if not yet exist
+      db_activity = Activity.where(["api_provider = ? and api_poi = ?", "SYGIC", "#{poi_d["id"]}"])
+      if db_activity.empty?
+        Activity.create(
+          name: poi_d["name"],  
+          category: "Sygic API",
+          api_provider: "SYGIC",
+          api_poi: "#{poi_d["id"]}",
+          duration: "00:30", # TO ADJUST
+          description: "#{poi_d["description"]["text"]}",
+          rating: "#{poi_d["rating_local"]}",
+          address: "#{poi_d["address"]}",
+          latitude: "#{poi_d["location"]["lat"]}",
+          longitude: "#{poi_d["location"]["lng"]}",
+          photo_title: poi_d["thumbnail_url"] ? "#{poi_d["thumbnail_url"]}" : "" # TODO : see how to manage load of picture
+          # TODO : add opening_hours stuff
+        )
+      end
     end
   end
 
