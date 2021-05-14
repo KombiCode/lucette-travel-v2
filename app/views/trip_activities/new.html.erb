@@ -7,10 +7,12 @@
     <div class="profiles">
       <% @activities.each do |activity| %>
         <div class="profile" data-activity-id="<%= activity.id %>">
-          <% if activity.photo_title.start_with?("https") %>
-            <%= image_tag "#{activity.photo_title}", alt: "#{activity.name}", class: "profile-image rounded-xl" %>
-          <% else %>
-            <%= image_tag "#{activity.photo_title}.jpg", alt: "#{activity.name}", class: "profile-image rounded-xl" %>
+          <% if activity.photo_title.present? %>
+            <% if activity.photo_title.start_with?("https") %>
+              <%= image_tag "#{activity.photo_title}", alt: "#{activity.name}", class: "profile-image rounded-xl" %>
+            <% else %>
+              <%= image_tag "#{activity.photo_title}.jpg", alt: "#{activity.name}", class: "profile-image rounded-xl" %>
+            <% end %>
           <% end %>
           <div class="profile-infos">
             <div class="profile-name">

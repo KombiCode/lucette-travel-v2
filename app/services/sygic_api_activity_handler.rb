@@ -28,6 +28,18 @@ class SygicApiActivityHandler
       poi_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
       poi_details = JSON.parse(poi_details_serialized)
       poi_d = poi_details["data"]["place"]
+      # media
+      api_media_url = api_url + "/media"
+      poi_media_serialized = URI.open(api_media_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
+      poi_media = JSON.parse(poi_media_serialized)["data"]["media"]
+
+      photo_url = ""
+      if poi_d["thumbnail_url"]
+        photo_url = poi_d["thumbnail_url"]
+      end
+      if poi_media.count > 0 && poi_media.first["url"]
+        photo_url = poi_media.first["url"]
+      end
       # TODO : create Activity if not yet exist, update it otherwise
       activity_params = { 
         name: poi_d["name"],  
@@ -40,7 +52,7 @@ class SygicApiActivityHandler
         address: "#{poi_d["address"]}",
         latitude: "#{poi_d["location"]["lat"]}",
         longitude: "#{poi_d["location"]["lng"]}",
-        photo_title: poi_d["thumbnail_url"] ? "#{poi_d["thumbnail_url"]}" : "", # TODO : see how to manage load of picture
+        photo_title: photo_url, # TODO : see how to manage load of picture
         # TODO : add opening_hours stuff according to OSM standard
         # for now just add some alway sopen
         opening_hours: {
@@ -57,7 +69,7 @@ class SygicApiActivityHandler
       if db_activity.empty?
         Activity.create(activity_params)
       else
-        Activity.update(activity_params)
+        db_activity.update(activity_params)
       end
     end
   end
