@@ -1,6 +1,5 @@
 require 'json'
 require 'open-uri'
-
 require 'amazing_print'
 
 # Sygic uses OSM format for opening hours
