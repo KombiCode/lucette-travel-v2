@@ -15,8 +15,8 @@ class TripActivitiesController < ApplicationController
     # Use API to search for Points Of Interest near booking
     api_handler = SygicApiActivityHandler.new
     km_radius = 8
-    # Set max to 1 for now while testing
-    max_pois = 1 #64
+    # Set max to 4 for now while testing
+    max_pois = 4 #64
     api_handler.searchActivitiesAround(@booking.latitude, @booking.longitude, km_radius, max_pois)
 
 

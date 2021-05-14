@@ -8,10 +8,12 @@
   </div>
 
   <div class="mw-full rounded overflow-hidden shadow-lg my-2">
-    <% if @activity.photo_title.start_with?("https") %>
-      <%= image_tag "#{@activity.photo_title}", alt: "#{@activity.name}" %>
-    <% else %>
-      <%= image_tag "#{@activity.photo_title}.jpg", alt: "#{@activity.name}" %>
+    <% if @activity.photo_title.present? %>
+      <% if @activity.photo_title.start_with?("https") %>
+        <%= image_tag "#{@activity.photo_title}", alt: "#{@activity.name}" %>
+      <% else %>
+        <%= image_tag "#{@activity.photo_title}.jpg", alt: "#{@activity.name}" %>
+      <% end %>
     <% end %>
   </div>
 
