@@ -30,23 +30,36 @@ class SygicApiActivityHandler
       poi_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
       poi_details = JSON.parse(poi_details_serialized)
       poi_d = poi_details["data"]["place"]
-      # TODO : create Activity if not yet exist
+      # TODO : create Activity if not yet exist, update it otherwise
+      activity_params = { 
+        name: poi_d["name"],  
+        category: "Sygic API",
+        api_provider: "SYGIC",
+        api_poi: "#{poi_d["id"]}",
+        duration: "00:30", # TO ADJUST
+        description: "#{poi_d["description"]["text"]}",
+        rating: "#{poi_d["rating_local"]}",
+        address: "#{poi_d["address"]}",
+        latitude: "#{poi_d["location"]["lat"]}",
+        longitude: "#{poi_d["location"]["lng"]}",
+        photo_title: poi_d["thumbnail_url"] ? "#{poi_d["thumbnail_url"]}" : "", # TODO : see how to manage load of picture
+        # TODO : add opening_hours stuff according to OSM standard
+        # for now just add some alway sopen
+        opening_hours: {
+          monday: [{open: "00:00", close: "23:59"}],
+          tuesday: [{open: "00:00", close: "23:59"}],
+          wednesday: [{open: "00:00", close: "23:59"}],
+          thursday: [{open: "00:00", close: "23:59"}],
+          friday: [{open: "00:00", close: "23:59"}],
+          saturday: [{open: "00:00", close: "23:59"}],
+          sunday: [{open: "00:00", close: "23:59"}]
+        }
+      }
       db_activity = Activity.where(["api_provider = ? and api_poi = ?", "SYGIC", "#{poi_d["id"]}"])
       if db_activity.empty?
-        Activity.create(
-          name: poi_d["name"],  
-          category: "Sygic API",
-          api_provider: "SYGIC",
-          api_poi: "#{poi_d["id"]}",
-          duration: "00:30", # TO ADJUST
-          description: "#{poi_d["description"]["text"]}",
-          rating: "#{poi_d["rating_local"]}",
-          address: "#{poi_d["address"]}",
-          latitude: "#{poi_d["location"]["lat"]}",
-          longitude: "#{poi_d["location"]["lng"]}",
-          photo_title: poi_d["thumbnail_url"] ? "#{poi_d["thumbnail_url"]}" : "" # TODO : see how to manage load of picture
-          # TODO : add opening_hours stuff
-        )
+        Activity.create(activity_params)
+      else
+        Activity.update(activity_params)
       end
     end
   end
