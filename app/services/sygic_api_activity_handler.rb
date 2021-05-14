@@ -35,7 +35,7 @@ class SygicApiActivityHandler
         api_provider: "SYGIC",
         api_poi: "#{poi_d["id"]}",
         duration: "00:30", # TO ADJUST
-        description: "#{poi_d["description"]["text"]}",
+        description: poi_d["description"] ? "#{poi_d["description"]["text"]}" : "",
         rating: "#{poi_d["rating_local"]}",
         address: "#{poi_d["address"]}",
         latitude: "#{poi_d["location"]["lat"]}",
