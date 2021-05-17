@@ -62,7 +62,11 @@
 
               <div class="wrapper-image relative rounded-2xl mb-6 shadow-custom-card">
                 <% if activity.photo_title.present? %>
-                  <%= image_tag "#{activity.photo_title}.jpg", alt: "#{activity.name}", class: "" %>
+                  <% if activity.photo_title.start_with?("https") %>
+                    <%= image_tag "#{activity.photo_title}", alt: "#{activity.name}", class: "" %>
+                  <% else %>
+                    <%= image_tag "#{activity.photo_title}.jpg", alt: "#{activity.name}", class: "" %>
+                  <% end %>
                 <% end %>
 
                   <div class="border-2 border-white w-24 h-14 absolute top-0 right-0 -m-3 -mr-3 rounded-bl-xl bg-white bg-opacity-40">
