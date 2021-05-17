@@ -54,4 +54,47 @@ class Activity < ApplicationRecord
     end
     open
   end
+
+  def get_image_tag
+    image_tag = ""
+    if photo_title.present?
+      if photo_title.start_with?("https")
+        image_tag = photo_title
+      else
+        image_tag = "#{photo_title}.jpg"
+      end
+    end
+    image_tag
+  end
+
+  def media_title_attribution
+    media_url_from_api ? api_attributions[photo_title]["title"] : "" 
+  end
+
+  def media_title_url_attribution
+    media_url_from_api ? api_attributions[photo_title]["title_url"] : ""
+  end
+
+  def media_author_attribution
+    media_url_from_api ? api_attributions[photo_title]["author"] : ""
+  end
+
+  def media_author_url_attribution
+    media_url_from_api ? api_attributions[photo_title]["author_url"] : ""
+  end
+
+  def media_license_attribution
+    media_url_from_api ? api_attributions[photo_title]["license"] : ""
+  end
+
+  def media_license_url_attribution
+    media_url_from_api ? api_attributions[photo_title]["license_url"] : ""
+  end
+
+  private
+
+  def media_url_from_api
+    photo_title.present? && photo_title.start_with?("https") && api_provider.present?
+  end
+
 end

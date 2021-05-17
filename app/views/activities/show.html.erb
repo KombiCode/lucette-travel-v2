@@ -1,5 +1,11 @@
 <main class="p-4 rounded-lg shadow-lg max-w-lg mx-auto text-center mt-2">
-  <h2 class="font-bold text-2xl text-center"><%= @activity.name %></h2>
+  <h2 class="font-bold text-2xl text-center">
+    <% if @activity.media_title_url_attribution.present? %>
+      <%= link_to @activity.name, @activity.media_title_url_attribution, target: "_blank" %>
+    <% else %>
+      <%= @activity.name %>
+    <% end %>
+  </h2>
 
   <div class="text-gray-200 text-md font-bold px-4 pb-2 pt-3 border rounded-full my-4">
     <i class="fa fa-map-marker" aria-hidden="true">
@@ -8,14 +14,22 @@
   </div>
 
   <div class="mw-full rounded overflow-hidden shadow-lg my-2">
-    <% if @activity.photo_title.present? %>
-      <% if @activity.photo_title.start_with?("https") %>
-        <%= image_tag "#{@activity.photo_title}", alt: "#{@activity.name}" %>
-      <% else %>
-        <%= image_tag "#{@activity.photo_title}.jpg", alt: "#{@activity.name}" %>
-      <% end %>
-    <% end %>
+    <%= image_tag @activity.get_image_tag, alt: "#{@activity.name}" %>
   </div>
+  <% if @activity.media_author_attribution.present? %>
+    <div class="text-sm text-gray-500">
+      <p> Author:
+        <%= link_to @activity.media_author_attribution, @activity.media_author_url_attribution, target: "_blank" %>
+      </p>
+    </div>
+  <% end %>
+  <% if @activity.media_license_attribution.present? %>
+    <div class="text-sm text-gray-500">
+      <p> License:
+        <%= link_to @activity.media_license_attribution, @activity.media_license_url_attribution, target: "_blank" %>
+      </p>
+    </div>
+  <% end %>
 
   <div class="grid place-items-center">
     <section class="flex flex-col md:flex-row gap-11 py-2 px-5">
