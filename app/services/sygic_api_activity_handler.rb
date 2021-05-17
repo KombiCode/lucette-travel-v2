@@ -40,6 +40,12 @@ class SygicApiActivityHandler
       if poi_media.count > 0 && poi_media.first["url"]
         photo_url = poi_media.first["url"]
       end
+      # Retrieve attribution data
+      poi_media_attribution = {}
+      if poi_media.count > 0 && poi_media.first["attribution"]
+        poi_media_attribution = poi_media.first["attribution"]
+      end
+
       # TODO : create Activity if not yet exist, update it otherwise
       activity_params = { 
         name: poi_d["name"],  
@@ -52,7 +58,8 @@ class SygicApiActivityHandler
         address: "#{poi_d["address"]}",
         latitude: "#{poi_d["location"]["lat"]}",
         longitude: "#{poi_d["location"]["lng"]}",
-        photo_title: photo_url, # TODO : see how to manage load of picture
+        photo_title: photo_url,
+        api_attributions: {"#{photo_url}" => poi_media_attribution },
         # TODO : add opening_hours stuff according to OSM standard
         # for now just add some alway sopen
         opening_hours: {
