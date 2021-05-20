@@ -1,7 +1,13 @@
-<div class="p-4 rounded-lg text-gray-200 text-center mt-16 m-4 left-11 border-2 rounded-xl">
+<!-- Create a trip  -->
+    <div class="font-bold text-md text-center text-white mt-4">
+      Create my trip
+    </div>
+
+<!-- Form for create a trip  -->
+<div class="p-4 rounded-lg text-gray-400 text-center m-4 left-11 border-2 rounded-xl">
   <%= form_for @trip, url: {action: "create"} do |f| %>
     <div class="field">
-      <%= f.label :name %><br />
+      <%= f.label :name, "Name of the trip" %><br />
       <%= f.text_field :name %>
     </div>
     <div class="field">
@@ -12,10 +18,14 @@
       <%= f.label :city %><br />
       <%= f.text_field :city %>
      </div>
-     <!--  <div class="field">
-      <%= f.label :bookings %><br />
-      <%= f.text_field :bookings %>
-     </div> -->
+      <div class="field">
+      <%= f.label :name_booking, "Name of your booking" %><br />
+      <%= f.text_field :name_booking %>
+     </div>
+     <div class="field">
+      <%= f.label :address, "Address of your booking" %><br />
+      <%= f.text_field :address %>
+     </div>
         <div class="field">
       <%= f.label :begin_date %><br />
       <%= f.date_field :begin_date %>
@@ -23,10 +33,6 @@
     <div class="field">
       <%= f.label :end_date %><br />
       <%= f.date_field :end_date %>
-    </div>
-    <div class="field">
-      <%= f.label :photo_title %><br />
-      <%= f.text_field :photo_title %>
     </div>
 
     <div>
