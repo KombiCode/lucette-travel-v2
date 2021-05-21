@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :bookings, only: [ :new, :create, :index, :show ]
     resources :tasks, only: [ :new, :create, :index ]
     resources :activities, only: [:index, :show]
+    get "firsthotel_booking", to: "bookings#firsthotel_for_trip"
   end
   resources :tasks, only: [ :show, :update, :destroy ]
 
