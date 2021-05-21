@@ -17,7 +17,7 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
     if @trip.save
-      redirect_to root_path
+      redirect_to trip_firsthotel_booking_path(@trip.id)
     else
       render :new
     end
