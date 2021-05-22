@@ -81,4 +81,23 @@ class SygicApiActivityHandler
     end
   end
 
+  def searchImageForCountry(country)
+    image_url = ""
+    api_common_url = "#{@base_url}/#{@api_version}/#{@api_lang}/places"
+    api_url = api_common_url + "/list?query=#{country}&levels=country"
+    country_detected_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
+    country_detected = JSON.parse(country_detected_serialized)
+    if country_detected["data"]["places"]
+      country_id = country_detected["data"]["places"].first["id"]
+      api_url = api_common_url + "/#{country_id}"
+      # media
+      api_media_url = api_url + "/media"
+      media_serialized = URI.open(api_media_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
+      media = JSON.parse(media_serialized)["data"]["media"]
+      if media.count > 0 && media.first["url"]
+        image_url = media.first["url"]
+      end
+    end
+    image_url
+  end
 end
