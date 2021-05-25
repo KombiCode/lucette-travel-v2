@@ -1,3 +1,5 @@
+require './app/services/sygic_api_activity_handler'
+
 class TripsController < ApplicationController
   before_action :check_user, only: [:new]
   before_action :find_trip, only: [:show]
@@ -16,8 +18,11 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
+    # add image if find one
+    api_handler = SygicApiActivityHandler.new
+    @trip.photo_title = api_handler.searchImageForCountry(@trip.country)
     if @trip.save
-      redirect_to root_path
+      redirect_to trip_firsthotel_booking_path(@trip.id)
     else
       render :new
     end

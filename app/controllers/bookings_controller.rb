@@ -22,11 +22,17 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     @trip = Trip.find(params[:trip_id])
     @booking.trip = @trip
-    # if @booking.save
-    #   redirect_to bookings_path
-    # else
-    #   render "new"
-    # end
+    if @booking.save
+      redirect_to root_path
+    else
+      raise
+    end
+  end
+
+  def firsthotel_for_trip
+    @trip = Trip.find(params[:trip_id])
+    @booking = Booking.new
+    puts "Need to enter first hotel for trip #{@trip.name}"
   end
 
   private
