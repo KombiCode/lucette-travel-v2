@@ -49,6 +49,13 @@
           <% show_opening_hours(@activity.opening_hours).each do |oh| %>
             <p><%= oh %></p>
           <% end %>
+          <% if @activity.has_osm_openinghours? %>
+            <div id="activity-osm-oh-raw" hidden>
+              <%= "#{@activity.osm_openinghours}" %>
+            </div>
+            <div id="activity-osm-pretty-oh">
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -56,9 +63,6 @@
   </div>
   <div class="text-white"> <!-- duration -->
     <p>Duration : <%= @activity.duration.to_time.strftime("%H:%M") %></p>
-  </div>
-  <div id="activity-osm-oh-raw" hidden>
-    <%= "Mo-Su 09:30-17:00; Jan: 09:30-18:00; Dec 25: off" %>
   </div>
 </main>
 
