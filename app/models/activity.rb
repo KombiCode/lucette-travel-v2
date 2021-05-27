@@ -19,6 +19,7 @@ class Activity < ApplicationRecord
   end
 
   def is_open_tomorrow?
+    return false unless !has_osm_openinghours?
     day_names = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     tomorrow_week_day = Date.current.cwday + 1
     if tomorrow_week_day > 7
@@ -28,6 +29,7 @@ class Activity < ApplicationRecord
   end
 
   def is_open(datetime)
+    return false unless !has_osm_openinghours?
     day_names = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     week_day = datetime.cwday
     open = false
@@ -54,6 +56,14 @@ class Activity < ApplicationRecord
     end
     open
   end
+
+  def has_osm_openinghours?
+    opening_hours.has_key?('osm_raw')    
+  end
+
+  def osm_openinghours
+    opening_hours['osm_raw']
+  end 
 
   def get_image_tag
     image_tag = ""

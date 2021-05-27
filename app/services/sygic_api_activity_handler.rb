@@ -46,7 +46,7 @@ class SygicApiActivityHandler
         poi_media_attribution = poi_media.first["attribution"]
       end
 
-      # TODO : create Activity if not yet exist, update it otherwise
+      # Create Activity if not yet exist, update it otherwise
       activity_params = { 
         name: poi_d["name"],  
         category: "Sygic API",
@@ -60,16 +60,8 @@ class SygicApiActivityHandler
         longitude: "#{poi_d["location"]["lng"]}",
         photo_title: photo_url,
         api_attributions: {"#{photo_url}" => poi_media_attribution },
-        # TODO : add opening_hours stuff according to OSM standard
-        # for now just add some alway sopen
         opening_hours: {
-          monday: [{open: "00:00", close: "23:59"}],
-          tuesday: [{open: "00:00", close: "23:59"}],
-          wednesday: [{open: "00:00", close: "23:59"}],
-          thursday: [{open: "00:00", close: "23:59"}],
-          friday: [{open: "00:00", close: "23:59"}],
-          saturday: [{open: "00:00", close: "23:59"}],
-          sunday: [{open: "00:00", close: "23:59"}]
+          osm_raw: poi_d["opening_hours_raw"] ? "#{poi_d["opening_hours_raw"]}" : "24/7"
         }
       }
       db_activity = Activity.where(["api_provider = ? and api_poi = ?", "SYGIC", "#{poi_d["id"]}"])
