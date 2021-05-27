@@ -52,7 +52,7 @@ class SygicApiActivityHandler
         category: "Sygic API",
         api_provider: "SYGIC",
         api_poi: "#{poi_d["id"]}",
-        duration: "00:30", # TO ADJUST
+        duration: computeDuration(poi_d["duration_estimate"]),
         description: poi_d["description"] ? "#{poi_d["description"]["text"]}" : "",
         rating: "#{poi_d["rating_local"]}",
         address: "#{poi_d["address"]}",
@@ -99,5 +99,10 @@ class SygicApiActivityHandler
       end
     end
     image_url
+  end
+
+  private
+  def computeDuration(seconds)
+    Time.at(seconds).utc.strftime("%H:%M:%S")
   end
 end
