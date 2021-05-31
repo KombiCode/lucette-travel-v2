@@ -21,29 +21,30 @@ class SygicApiActivityHandler
     pois_detected_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
     pois_detected = JSON.parse(pois_detected_serialized)
     # Now, we want to get details on each poi place
-    # We should use API endpoint multi place details: (like https://api.sygictravelapi.com/1.2/{{lang}}/places?ids=poi:530|poi:531|poi:532|poi:533)
-    # but does not seem to work actually, so we currently use place details endpoint for each
-    pois_detected["data"]["places"].each do |poi|
-      api_url = api_common_url + "/#{poi["id"]}"
-      poi_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
-      poi_details = JSON.parse(poi_details_serialized)
-      poi_d = poi_details["data"]["place"]
-      # media
-      api_media_url = api_url + "/media"
-      poi_media_serialized = URI.open(api_media_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
-      poi_media = JSON.parse(poi_media_serialized)["data"]["media"]
+    # We API endpoint multi place details: (like https://api.sygictravelapi.com/1.2/{{lang}}/places?ids=poi:530%7Cpoi:531%7Cpoi:532%7Cpoi:533)
+    
+    pois_ids_array = pois_detected["data"]["places"].collect { |item| item["id"] }
+    api_url = api_common_url + "?ids=#{pois_ids_array.join("%7C")}"
+    pois_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
+    pois_details = JSON.parse(pois_details_serialized)
 
+    pois_details["data"]["places"].each do |poi_d|
+      # Retrieve a photo and its attribution data
       photo_url = ""
+      poi_media_attribution = {}
+
       if poi_d["thumbnail_url"]
         photo_url = poi_d["thumbnail_url"]
       end
-      if poi_media.count > 0 && poi_media.first["url"]
-        photo_url = poi_media.first["url"]
-      end
-      # Retrieve attribution data
-      poi_media_attribution = {}
-      if poi_media.count > 0 && poi_media.first["attribution"]
-        poi_media_attribution = poi_media.first["attribution"]
+      if poi_d["media_count"] > 0
+        media_array = poi_d["main_media"]["media"]
+        photos_array = media_array.select { |item| item["type"] == "photo" }
+        if photos_array.count > 0
+          photo_url = photos_array.first["url"]
+          if photos_array.first["attribution"]
+            poi_media_attribution = photos_array.first["attribution"]
+          end
+        end
       end
 
       # Create Activity if not yet exist, update it otherwise
