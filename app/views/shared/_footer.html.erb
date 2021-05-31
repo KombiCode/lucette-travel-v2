@@ -1,4 +1,5 @@
 <footer id="footer" class="container sticky bottom-0 z-10 shadow-custom-navbar">
+
   <div class="flex justify-around pt-2 pb-2">
     <% if @trip && @trip.id %>
       <%= link_to trip_path(@trip) do %>
@@ -6,7 +7,6 @@
         <!-- %img{:src => "/images/image1.svg"} -->
         <%= image_tag "logo-icon.png", alt: "alttext", class: "h-6 mt-1" %>
       <% end %>
-
       <%= link_to trip_tasks_path(@trip) do %>
         <i class="fas fa-tasks text-gray-200 text-2xl"></i>
       <% end %>
@@ -15,11 +15,21 @@
         <i class="fas fa-home text-gray-200 text-2xl"></i>
       <% end %>
     <% end %>
+
+       <!-- add link to CGU -->
+      <div>
+         <%= link_to cgu_path() do %>
+         <i class="fas fa-info text-gray-200 text-2xl"></i>
+       <% end %>
+      </div>
+    <!-- end CGU -->
+
     <!-- <%= link_to user_session_path do %> -->
       <% if current_user %>
         <button class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
           <i class="fas fa-user text-gray-200 text-2xl"></i>
         </button>
+
 
 
         <div id="user-menu-dropdown" class="origin-top-right absolute top-2 right-0 mr-2 w-24 rounded-md shadow-lg bg-gray-300 bg-opacity-50">
@@ -31,6 +41,7 @@
         <i class="far fa-user text-gray-200 text-2xl"></i>
       <% end %>
     <!-- <% end %> -->
+
   </div>
 </footer>
 

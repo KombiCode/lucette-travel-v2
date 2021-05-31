@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   resources :activities, only: [ :new, :create ]
 
+  # route for aditional pages
+  get '/cgu' => 'pages#cgu'
+
   # Special routes for notifs stuff
   get "/check_for_notif", to: "notifications#check_for_notif"
   get "/hide_notif_empty_activities", to: "notifications#hide_notif_empty_activities"
