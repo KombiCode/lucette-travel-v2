@@ -7,8 +7,8 @@ export default class extends Controller {
     const interval = 5 * 1000;
     if (!window.setIntervalIsSet) {
       this.refresh();
-      setInterval(this.refresh, interval);
-      window.setIntervalIsSet = true  
+      // setInterval(this.refresh, interval);
+      // window.setIntervalIsSet = true  
     }
   }
 
