@@ -24,7 +24,6 @@ class SygicApiActivityHandler
     # We API endpoint multi place details: (like https://api.sygictravelapi.com/1.2/{{lang}}/places?ids=poi:530%7Cpoi:531%7Cpoi:532%7Cpoi:533)
     
     pois_ids_array = pois_detected["data"]["places"].collect { |item| item["id"] }
-    ap pois_ids_array.join("%7C")
     api_url = api_common_url + "?ids=#{pois_ids_array.join("%7C")}"
     pois_details_serialized = URI.open(api_url, {"x-api-key" => ENV['SYGIC_API_KEY'] }).read
     pois_details = JSON.parse(pois_details_serialized)
