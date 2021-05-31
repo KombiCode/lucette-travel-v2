@@ -9,4 +9,7 @@ class PagesController < ApplicationController
     @trips = Trip.all
   end
 
+  def cgu
+  end
+
 end
