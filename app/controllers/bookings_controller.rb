@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
   #before_action :set_booking, only: [:show]
+  @@at_trip_creation = false
 
   def index
     @trip = Trip.find(params[:trip_id])
@@ -14,6 +15,7 @@ class BookingsController < ApplicationController
   end
 
   def new
+    @@at_trip_creation = false
     @trip = Trip.find(params[:trip_id])
     @booking = Booking.new
   end
@@ -25,17 +27,19 @@ class BookingsController < ApplicationController
     if @booking.save
       redirect_to root_path
     else
-      raise
+      if @@at_trip_creation == true
+        render :firsthotel_for_trip
+      else
+        render :new
+      end
     end
   end
 
   def firsthotel_for_trip
+    @@at_trip_creation = true
     @trip = Trip.find(params[:trip_id])
     @booking = Booking.new
-    puts "Need to enter first hotel for trip #{@trip.name}"
   end
-
-  private
 
   # def set_booking
   #   @booking = Trip.find(params[:trip_id])
