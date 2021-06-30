@@ -1,4 +1,4 @@
-.burger { /* Contenu slide navbar */
+.burger {               /* Contenu slide navbar */
   -webkit-transition: left 0.5s ease;
   -moz-transition: left 0.5s ease;
   -ms-transition: left 0.5s ease;
@@ -24,13 +24,17 @@
 .burger ul {
   position: absolute;
   width: 100%;
- top: 50%;
+  top: 50%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.button_toggle_burger {
+  position: relative;
 }
 
 .burger-toggle {
@@ -40,7 +44,7 @@
   cursor: pointer;
   height: 1.2rem;
   left: 1.2rem;
-  position: fixed;
+  position: absolute;
   top: 1.4rem;
   width: 2.4rem;
   z-index: 10;
