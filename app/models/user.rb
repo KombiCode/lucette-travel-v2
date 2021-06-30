@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :trips
   has_one :current_trip, -> { current_trip }, class_name: 'Trip'
+  has_one :next_trips, -> { next_trips }, class_name: 'Trip'
+  has_one :past_trips, -> { past_trips }, class_name: 'Trip'
 
 
   def has_today_activities?

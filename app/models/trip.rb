@@ -6,6 +6,8 @@ class Trip < ApplicationRecord
   belongs_to :user
 
   scope :current_trip, -> { where("begin_date <= ?", Date.current).where("end_date >= ?", Date.current) }
+  scope :next_trips, -> { where("begin_date > ?", Date.current).order(:begin_date) }
+  scope :past_trips, -> { where("end_date < ?", Date.current).order(end_date: :desc) }
 
   def today_activities
     trip_activities.today_activities
