@@ -2,8 +2,22 @@
   <!-- <div class="w-screen border-2 border-yellow-400"> -->
     <div class="flex items-center justify-center custom-size-background">
       <% if current_user %>
-        <%= link_to trip_path(Trip.first), class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
-          My current trip
+        <% if !(current_trip = user_trips(current_user).current_trip).empty? %>
+          <%= link_to trip_path(current_trip.first), class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
+            My current trip
+          <% end %>
+        <% elsif !(next_trips = user_trips(current_user).next_trips).empty? %>
+          <%= link_to trip_path(next_trips.first), class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
+            My next trip
+          <% end %>
+        <% elsif !(past_trips = user_trips(current_user).past_trips).empty? %>
+          <%= link_to trip_path(past_trips.first), class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
+            My last trip
+          <% end %>
+        <% else %>
+          <%= link_to new_trip_path, class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
+            Add trip
+          <% end %>
         <% end %>
       <% else %>
         <%= link_to new_user_session_path, class: "bg-gray-200 bg-opacity-50 mt-10 px-4 py-2 text-gray-200 rounded-lg border-2 shadow-lg font-bold" do %>
