@@ -34,6 +34,9 @@
                           <%= image_tag "#{trip.photo_title}.jpg", alt: "#{trip.name}", class: "rounded-lg" %>
                         <% end %>
                         <div class="box-content container absolute top-3 content-between">
+                          <div class="text-right text-sm mr-4">
+                            <%= link_to '', trip_path(trip), class: "far fa-trash-alt", method: :delete, data: { confirm: 'Are you sure?' } %>                          
+                          </div>
                           <div class="text-white">
                             <h5><%= trip.name.upcase %></h5>
                           </div>

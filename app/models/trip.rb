@@ -1,8 +1,8 @@
 class Trip < ApplicationRecord
-  has_many :bookings
-  has_many :trip_activities
+  has_many :bookings, dependent: :destroy
+  has_many :trip_activities, dependent: :destroy
   has_many :activities, through: :trip_activities
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   belongs_to :user
 
   scope :current_trip, -> { where("begin_date <= ?", Date.current).where("end_date >= ?", Date.current) }
