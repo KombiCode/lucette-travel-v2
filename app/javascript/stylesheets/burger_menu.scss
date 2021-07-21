@@ -131,3 +131,21 @@ nav ul:nth {
   padding-right: 20px;
   padding-left: 325px;
 }
+
+@media only screen and (min-width: 376px) {
+  .burger.expanded{
+    left: 34%;
+  }
+
+  .burger {
+    height: 94vh;
+    margin-top: 2%;
+  }
+
+  .body-black-toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+}
