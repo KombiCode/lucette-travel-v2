@@ -12,4 +12,7 @@ class PagesController < ApplicationController
   def cgu
   end
 
+  def explanation
+  end
+
 end
