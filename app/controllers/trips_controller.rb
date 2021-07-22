@@ -31,7 +31,7 @@ class TripsController < ApplicationController
   def destroy
     @trip = Trip.find(params[:id])
     @trip.destroy
-    render 'pages/home'
+    redirect_to root_path
 end
 
   private
