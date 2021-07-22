@@ -14,70 +14,68 @@
   <% end %>
   <ul>
     <li>
-        <div class="button_toggle_burger">
-          <!-- Start Burger menu -->
-          <div class="burger-toggle">   <!-- Button to toggle -->
-            <div class="burger-toggle-bar"></div>
-          </div>
-          <!-- Inside Burger -->
-          <div class="flex items-center justify-center burger mb-1" id="burger"> <!-- Contenu -->
-            <ul>
-              <div class="text-burger-custom text-center mx-4 mb-6">
-                <li>My trips</li>
-              </div>
-
-              <li>
-                <% user_trips(current_user).each do |trip| %>
-                  <div class="wrapper-card-burger relative shadow-custom-card text-center mx-4">
-                    <%= link_to trip_path(trip) do %>
-                        <% if trip.photo_title && !trip.photo_title.empty? %>
-                          <%= image_tag "#{trip.photo_title}.jpg", alt: "#{trip.name}", class: "rounded-lg" %>
-                        <% end %>
-                        <div class="box-content container absolute top-3 content-between">
-                          <div class="text-right text-sm mr-4">
-                            <%= link_to '', trip_path(trip), class: "far fa-trash-alt", method: :delete, data: { confirm: 'Are you sure?' } %>                          
-                          </div>
-                          <div class="text-white">
-                            <h5><%= trip.name.upcase %></h5>
-                          </div>
-                          <div>
-                            <p>From <%= trip.begin_date %> to <%= trip.end_date %></p>
-                          </div>
-                        </div>
-                    <% end %>
-                  </div>
-
-                  <hr>
-
-                <% end %>
-              </li>
-              <li>
-                <div class="container justify-around">
-                  <div class="text-burger-custom text-center text-sm mx-4">
-                  Add a trip
-                  <%= link_to new_trip_path do  %>
-                    <div class="custom-text-button px-4 py-4">
-                      +
-                    </div>
-                  <% end %>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+      <div class="button_toggle_burger">
+        <!-- Start Burger menu -->
+        <div class="burger-toggle">   <!-- Button to toggle -->
+          <div class="burger-toggle-bar"></div>
         </div>
+        <!-- Inside Burger -->
+        <div class="flex items-center justify-center burger mb-1" id="burger"> <!-- Contenu -->
+          <ul class="overflow-scroll h-5/6">
+            <div class="text-burger-custom text-center mx-4 mb-6">
+              <li>My trips</li>
+            </div>
+
+            <li>
+              <% user_trips(current_user).each do |trip| %>
+                <div class="wrapper-card-burger relative shadow-custom-card text-center mx-4">
+                  <%= link_to trip_path(trip) do %>
+                      <% if trip.photo_title && !trip.photo_title.empty? %>
+                        <%= image_tag "#{trip.photo_title}.jpg", alt: "#{trip.name}", class: "rounded-lg" %>
+                      <% end %>
+                      <div class="box-content container absolute top-3 content-between">
+                        <div class="text-right text-sm mr-4">
+                          <%= link_to '', trip_path(trip), class: "far fa-trash-alt", method: :delete, data: { confirm: 'Are you sure?' } %>
+                        </div>
+                        <div class="text-white">
+                          <h5><%= trip.name.upcase %></h5>
+                        </div>
+                        <div>
+                          <p>From <%= trip.begin_date %> to <%= trip.end_date %></p>
+                        </div>
+                      </div>
+                  <% end %>
+                </div>
+                <hr>
+              <% end %>
+            </li>
+            <li>
+              <div class="container justify-around">
+                <div class="text-burger-custom text-center text-sm mx-4">
+                Add a trip
+                <%= link_to new_trip_path do  %>
+                  <div class="custom-text-button px-4 py-4">
+                    +
+                  </div>
+                <% end %>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </li>
 
     <li>
-        <div class="padding-bell pt-2 pb-2">
-          <%= link_to "#", id: "notifBell" do %>
-            <div data-controller="fakenotif" data-fakenotif-target="count">
-              <div id="notif-ea-checked" hidden><%= hide_notif_empty_activities %></div>
-              <div id="notif-nb-checked" hidden><%= hide_notif_new_booking %></div>
-              <i class="far fa-bell text-gray-200 text-2xl text-left"></i>
-            </div>
-          <% end %>
-        </div>
+      <div class="padding-bell pt-2 pb-2">
+        <%= link_to "#", id: "notifBell" do %>
+          <div data-controller="fakenotif" data-fakenotif-target="count">
+            <div id="notif-ea-checked" hidden><%= hide_notif_empty_activities %></div>
+            <div id="notif-nb-checked" hidden><%= hide_notif_new_booking %></div>
+            <i class="far fa-bell text-gray-200 text-2xl text-left"></i>
+          </div>
+        <% end %>
+      </div>
     </li>
   </ul>
       <!-- End Burger menu -->
