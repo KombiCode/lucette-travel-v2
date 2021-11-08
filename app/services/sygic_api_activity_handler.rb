@@ -95,6 +95,7 @@ class SygicApiActivityHandler
   end
 
   private
+  
   def computeDuration(seconds)
     Time.at(seconds).utc.strftime("%H:%M:%S")
   end
