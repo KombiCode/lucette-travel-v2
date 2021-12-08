@@ -1,9 +1,9 @@
-<div id="trip-form-intro" class="p-4 pt-2 pb-2 mt-6 text-center text-gray-200" hidden>
+<div class="p-4 pt-2 pb-2 mt-6 text-center text-gray-200">
   <h4>Create your trip</h4>
   <p>Your trip creation will allow you to have a vision of your whole trip and search activities around where you will be staying.</p>
   <p>Let's begin the journey together ! </p>
 </div>
-<div id="trip-form" class="p-4 m-6 my-auto text-center text-gray-400 border-2 rounded-lg left-11" hidden>
+<div class="p-4 m-6 my-auto text-center text-gray-400 border-2 rounded-lg left-11">
   <%= form_for @trip, url: {action: "create"} do |f| %>
     <div class="field">
       <%= f.label :name %><br />

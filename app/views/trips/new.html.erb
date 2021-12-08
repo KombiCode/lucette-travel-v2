@@ -1,11 +1,13 @@
-<!-- Hidden explanation that we are going to show only if there is no trip created -->
-<% if @trip.nil? || @trip.id.nil? %>
-  <%= render 'shared/explanation'%>
-  <%= render 'shared/newtrip_form'%>
+<!-- When current user has no trip yet, display a carousel of explanations -->
+<!-- Once last button of carousel has been clicked, we toggle display style for both above divs with id -->
+<!-- When current user has at least one trip then we just display the form to create another trip -->
+<% if user_trips(current_user).count == 0 %>
+  <div id="carousel-explanation" class="my-auto" style="display: block;">
+    <%= render 'shared/explanation'%>
+  </div>
+  <div id="form-notrip" class="my-auto" style="display: none;">
+    <%= render 'shared/newtrip_form'%>
+  </div>
 <% else %>
   <%= render 'shared/newtrip_form'%>
 <% end %>
-
-
-<!-- JS ADD EVENT LISTENER pour display none  -->
-<!-- AJOUTER LIGNE DE CODE : display non sur id à la fin  -->
