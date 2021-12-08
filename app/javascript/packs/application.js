@@ -37,6 +37,7 @@ import { initNotifMessage } from "../plugins/init_notifmessage";
 import { initTinder } from '../plugins/init_tinder';
 import { initSwiper } from '../plugins/init_swiper';
 import { initOpeningHours } from '../plugins/init_openinghours';
+import { initCarousel } from '../plugins/init_carouselexplanation';
 
 document.addEventListener('turbolinks:load', () => {
   initBurger();
@@ -46,4 +47,5 @@ document.addEventListener('turbolinks:load', () => {
   initNotifMessage();
   initSwiper();
   initOpeningHours();
+  initCarousel();
 })

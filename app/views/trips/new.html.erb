@@ -1,36 +1,11 @@
-<div class="text-gray-200 pt-2 pb-2 mt-6 p-4 text-center">
-  <h4>Create your trip</h4>
-  <p>Your trip creation will allow you to have a vision of your whole trip and search activities around where you will be staying.</p>
-  <p>Let's begin the journey together ! </p>
-</div>
-
-<div class="p-4 rounded-lg text-gray-400 text-center m-6 left-11 border-2 rounded-xl my-auto">
-  <%= form_for @trip, url: {action: "create"} do |f| %>
-    <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name %>
-    </div>
-    <div class="field">
-      <%= f.label :country %><br />
-      <%= f.text_field :country %>
-    </div>
-        <div class="field">
-      <%= f.label :city %><br />
-      <%= f.text_field :city %>
-    </div>
-        <div class="field">
-      <%= f.label :begin_date %><br />
-      <%= f.date_field :begin_date %>
-    </div>
-    <div class="field">
-      <%= f.label :end_date %><br />
-      <%= f.date_field :end_date %>
-    </div>
-    <div>
-    <%= f.submit "Create", class: "text-gray-200 text-md font-bold my-3 bg-transparent" %>
-    </div>
-  <% end %>
-</div>
+<!-- Hidden explanation that we are going to show only if there is no trip created -->
+<% if @trip.nil? || @trip.id.nil? %>
+  <%= render 'shared/explanation'%>
+  <%= render 'shared/newtrip_form'%>
+<% else %>
+  <%= render 'shared/newtrip_form'%>
+<% end %>
 
 
-
+<!-- JS ADD EVENT LISTENER pour display none  -->
+<!-- AJOUTER LIGNE DE CODE : display non sur id à la fin  -->
