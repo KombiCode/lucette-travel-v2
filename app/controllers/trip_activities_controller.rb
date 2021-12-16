@@ -13,11 +13,15 @@ class TripActivitiesController < ApplicationController
     @localisation = @booking&.address
 
     # Use API to search for Points Of Interest near booking
-    api_handler = SygicApiActivityHandler.new
-    km_radius = 8
-    max_pois = 64
-    api_handler.searchActivitiesAround(@booking.latitude, @booking.longitude, km_radius, max_pois)
+    # api_handler = SygicApiActivityHandler.new
+    # km_radius = 8
+    # max_pois = 64
+    # api_handler.searchActivitiesAround(@booking.latitude, @booking.longitude, km_radius, max_pois)
 
+    api_handler = FoursquareApiHandler.new
+    km_radius = 8
+    max_pois = 25
+    api_handler.searchActivitiesAround(@booking.latitude, @booking.longitude, km_radius, max_pois)
 
     @tripActivity = TripActivity.new
     # @tripActivity.trip = @trip
