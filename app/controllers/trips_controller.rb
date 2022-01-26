@@ -1,4 +1,4 @@
-require './app/services/sygic_api_activity_handler'
+require './app/services/pexels_api_handler'
 
 class TripsController < ApplicationController
   before_action :check_user, only: [:new]
@@ -19,8 +19,8 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
     # add image if find one
-    api_handler = SygicApiActivityHandler.new
-    @trip.photo_title = api_handler.searchImageForCountry(@trip.country)
+    api_handler = PexelsApiHandler.new
+    @trip.photo_title = api_handler.searchImageForCountryAndCity(@trip.country, @trip.city)
     if @trip.save
       redirect_to trip_firsthotel_booking_path(@trip.id)
     else
